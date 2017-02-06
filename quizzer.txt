@@ -1,0 +1,183 @@
+// A simple Swing application.
+import javax.swing.*;
+import java.awt.*; //Included to use FlowLayout
+import java.awt.event.*;
+import java.io.*;
+//implements ActionListener
+class swingt extends JFrame{
+	
+	public static String a;
+	public static String ques;
+	String op1, op2, op3, op4;
+	String q, ans;
+	
+	swingt() 
+		{
+		setTitle("Quizzer");
+		
+		//The FlowLayout class puts components in a row, sized at their preferred size. If the horizontal space in the container is too small to put all the components in one row, the FlowLayout class uses multiple rows. If the container is wider than necessary for a row of components, the row is, by default, centered horizontally within the container. To specify that the row is to aligned either to the left or right, use a FlowLayout constructor that takes an alignment argument. Another constructor of the FlowLayout class specifies how much vertical or horizontal padding is put around the components.
+		setLayout(new FlowLayout());
+		
+		// Give the frame an initial size.
+		setSize(500, 500);
+	
+		// Terminate the program when the user closes the application.
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//Keeps window at centre
+		setLocationRelativeTo(null);
+		
+		// Display the frame.
+		setVisible(true);
+		}
+
+
+	void draw()
+	{
+		getq();
+		geta();
+		JLabel question = new JLabel(q);
+		add(question);
+		
+		// Create a text-based label.
+		
+		
+		JRadioButton a = new JRadioButton(op1);
+		add(a);
+		
+		JRadioButton b = new JRadioButton(op2);
+		add(b);
+		
+		
+		JRadioButton c = new JRadioButton(op3);
+		add(c);
+		
+		JRadioButton d = new JRadioButton(op4);
+		add(d);
+		
+		
+	
+		ButtonGroup bg= new ButtonGroup();
+		bg.add(a);
+		bg.add(b);
+		bg.add(c);
+		bg.add(d);
+	
+		JLabel Yes= new JLabel("Correct answer!!");
+		JLabel No= new JLabel("Wrong answer");
+			
+			
+		do
+		{
+		
+			a.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+			
+				if(op1.equals(ans))
+					add(Yes);
+				else
+					add(No);
+			}
+			});
+		
+			b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+			
+				if(op2.equals(ans))
+					add(Yes);
+				else
+					add(No);
+			}
+			});
+		
+			c.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+			
+				if(op3.equals(ans))
+					add(Yes);
+				else
+					add(No);
+			}
+			});
+			
+			d.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+			
+				if(op4.equals(ans))
+					add(Yes);
+				else
+					add(No);
+			}
+			});
+		
+		}while()
+	}
+		
+		
+	
+		
+	
+
+	void geta()
+	{
+		try 
+		{
+				FileInputStream file = new FileInputStream("answers.txt");
+				BufferedReader br = new BufferedReader(new InputStreamReader(file));
+				op1 = br.readLine();
+				op2 = br.readLine();
+				op3 = br.readLine();
+				op4 = br.readLine();
+		}
+		
+		catch(Exception e)
+		{
+			System.out.println("Couldn't open file");
+		}
+	}
+		
+		
+		
+	void getq()
+	{
+		
+
+		try 
+		{
+				FileInputStream file = new FileInputStream("questions.txt");
+				BufferedReader br = new BufferedReader(new InputStreamReader(file));
+				q = br.readLine();
+				ans = br.readLine();
+				
+		}
+		
+		catch(Exception e)
+		{
+			System.out.println("Couldn't open file");
+		}
+		
+	}
+	
+	
+	
+}
+
+class quizzer
+{
+		public static void main(String args[]) {
+	
+		// Create the frame on the event dispatching thread.
+		
+		SwingUtilities.invokeLater(new Runnable() 
+			{
+				public void run() {
+		
+					swingt obj = new swingt();
+					obj.draw();
+				}
+			});
+			
+			
+		}
+
+}	
